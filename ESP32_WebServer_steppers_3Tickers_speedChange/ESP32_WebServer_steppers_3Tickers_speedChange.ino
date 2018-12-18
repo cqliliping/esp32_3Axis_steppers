@@ -1,5 +1,7 @@
 /*
 20181204 添加速度改变和同时控制三个轴的按钮
+二轴特别处理》》启动和停止时速度不能太快
+20181218 input image 改为input submit 方便其他人使用
 */
 //20181111 Timer控制stepPin
 #include <WiFi.h>
@@ -119,26 +121,25 @@ void loop(){
             client.println("<!DOCTYPE html>"); // open wrap the web page
             client.print("<html><head><meta name='viewport' content='initial-scale=1.0'><meta charset='utf-8'><style>#map {height: 100%;}html, body {height: 100%;margin: 0;padding: 0;}</style></head>");
             client.print("<body><h1>双创桌面机器人简单控制</h1>");
-        // Gui buttons start here
-                client.print("<input type=image style=width:50%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonGreenLong.png'onmousedown=location.href='/slow' >");
-                client.print("<input type=image style=width:50%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonPurpleLong.png'onmousedown=location.href='/fast' >");
-        
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonBlueLong.png'onmousedown=location.href='/dec1' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/nixiesmall1.png'>");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonOrangeLong.png'onmousedown=location.href='/inc1' >");
-                   
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonPinkLong.png'onmousedown=location.href='/dec2' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/nixiesmall2.png'>");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonGreenLong.png'onmousedown=location.href='/inc2' >"); 
 
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonTurqLong.png'onmousedown=location.href='/dec3' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/nixiesmall3.png'>");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonPurpleLong.png'onmousedown=location.href='/inc3' >"); 
-                
-                //client.print("<input type=image style=width:100%;height:20% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonRedLong.png'onmousedown=location.href='/stopall' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonYellowLong.png'onmousedown=location.href='/decAll' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonRedLong.png'onmousedown=location.href='/stopall' >");
-                client.print("<input type=image style=width:33%;height:16% src='http://myrobotlab.org/sites/default/files/users/user25images/ButtonBlackLong.png'onmousedown=location.href='/incAll' >");
+
+        //20181218 在书中看到input控件似乎没有背景图片的做法，为了让人清晰易懂，改为所有为button
+        client.print("<input type='submit' value='慢速'style=width:50%;height:16% onmousedown=location.href='/slow'>");
+        client.print("<input type='submit' value='快速'style=width:50%;height:16% onmousedown=location.href='/fast'>");
+        
+        client.print("<input type='submit' value='一轴负'style=width:50%;height:16% onmousedown=location.href='/dec1'>");
+        client.print("<input type='submit' value='一轴正'style=width:50%;height:16% onmousedown=location.href='/inc1'>");
+
+        client.print("<input type='submit' value='二轴负'style=width:50%;height:16% onmousedown=location.href='/dec2'>");
+        client.print("<input type='submit' value='二轴正'style=width:50%;height:16% onmousedown=location.href='/inc2'>");
+
+        client.print("<input type='submit' value='三轴负'style=width:50%;height:16% onmousedown=location.href='/dec3'>");
+        client.print("<input type='submit' value='三轴正'style=width:50%;height:16% onmousedown=location.href='/inc3'>");      
+
+        client.print("<input type='submit' value='所有轴负' style=width:33%;height:16% onmousedown=location.href='/decAll' >");
+        client.print("<input type='submit' value='急停' style=width:33%;height:16% onmousedown=location.href='/stopall' >");
+        client.print("<input type='submit' value='所有轴正' style=width:33%;height:16% onmousedown=location.href='/incAll' >");
+
                 client.print("</body></html>"); // close wrap the web page
             
             client.println(); // The HTTP response ends with an extra blank line:
